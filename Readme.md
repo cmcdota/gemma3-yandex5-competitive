@@ -34,8 +34,8 @@ ollama stop deepseek-r1:8b
 # PROMPTS
 <hr>
 
-# Prompt 1:
 <a name="prompt1"></a>
+# Prompt 1:
 ````
 Сгенерируй пожалуйста формулу для рассчета показателя time to market.
 ````
@@ -267,8 +267,8 @@ TTM = 01.07.2024 – 01.01.2024 = 182 дня.
 
 <hr>
 
-# Prompt 2:
 <a name="prompt2"></a>
+# Prompt 2:
 ````
 """
 Напиши тест-план для задачи ниже:
@@ -671,8 +671,8 @@ eval rate:            4.20 tokens/s
 <hr>
 
 
-# Prompt 3:
 <a name="prompt3"></a>
+# Prompt 3:
 ````
 """
 Представь что ты senior разработчик php. Напиши код на php для решения задачи:
@@ -766,8 +766,8 @@ eval rate:            4.21 tokens/s
 
 <hr>
 
-# Prompt 4.1 Шуфутинский:
 <a name="prompt4"></a>
+# Prompt 4.1 Шуфутинский:
 ````
 Скажи что ты видишь на картинке ./shuf.jpeg
 ````
@@ -815,8 +815,8 @@ eval rate:            4.81 tokens/s
 
 <hr>
 
-# Prompt 5:
 <a name="prompt5"></a>
+# Prompt 5:
 ```
 """
 Ты лидер команды сопровождения в банке. Опиши алгоритм разбора инцидента:
