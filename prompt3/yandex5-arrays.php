@@ -2,32 +2,47 @@
 
 // Пример массивов с историей timestamp статусов задачи и изменения сотрудников
 $statusHistory = [
-    ['timestamp' => 1623091200, 'status' => 'backlog'],
-    ['timestamp' => 1623177600, 'status' => 'analitycs'],
-    ['timestamp' => 1623264000, 'status' => 'development'],
-    ['timestamp' => 1623350400, 'status' => 'testing'],
-    ['timestamp' => 1623436800, 'status' => 'done']
+    ['timestamp' => '2023-01-01T10:00:00', 'status' => 'backlog'],
+    ['timestamp' => '2023-01-02T12:00:00', 'status' => 'analitycs'],
+    ['timestamp' => '2023-01-03T14:00:00', 'status' => 'development'],
+    ['timestamp' => '2023-01-04T16:00:00', 'status' => 'testing'],
+    ['timestamp' => '2023-01-05T18:00:00', 'status' => 'done']
 ];
 
 $employeeHistory = [
-    ['timestamp' => 1623091200, 'employee' => 'analyst_1'],
-    ['timestamp' => 1623177600, 'employee' => 'analyst_2'],
-    ['timestamp' => 1623264000, 'employee' => 'developer_1'],
-    ['timestamp' => 1623350400, 'employee' => 'tester_1'],
-    ['timestamp' => 1623436800, 'employee' => 'analyst_3']
+    ['timestamp' => '2023-01-01T10:00:00', 'employee' => 'сотрудник 1'],
+    ['timestamp' => '2023-01-02T12:00:00', 'employee' => 'сотрудник 2'],
+    ['timestamp' => '2023-01-03T14:00:00', 'employee' => 'сотрудник 3'],
+    ['timestamp' => '2023-01-04T16:00:00', 'employee' => 'сотрудник 4']
 ];
 
-// Объединяем массивы в один по времени
-$combinedHistory = [];
-foreach ($statusHistory as $key => $status) {
-    $combinedHistory[$key] = [
-        'timestamp' => $status['timestamp'],
-        'status' => $status['status'],
-        'employee' => $employeeHistory[$key]['employee']
-    ];
+// Сортируем массивы по timestamp
+usort($statusHistory, function ($a, $b) {
+    return strtotime($a['timestamp']) - strtotime($b['timestamp']);
+});
+usort($employeeHistory, function ($a, $b) {
+    return strtotime($a['timestamp']) - strtotime($b['timestamp']);
+});
+
+// Инициализируем результирующий массив
+$result = [];
+$currentEmployee = null;
+$currentStatus = null;
+
+// Проходим по массивам и объединяем их
+foreach ($statusHistory as $key => $item) {
+    if ($key < count($employeeHistory)) {
+        $currentEmployee = $employeeHistory[$key]['employee'];
+    } else {
+        $currentEmployee = end($employeeHistory)['employee'];
+    }
+
+    // Если статус изменился, обновляем информацию в результирующем массиве
+    if ($item['status'] !== $currentStatus) {
+        $result[$item['status']] = $currentEmployee;
+        $currentStatus = $item['status'];
+    }
 }
 
 // Выводим результат
-foreach ($combinedHistory as $history) {
-    echo "Timestamp: " . $history['timestamp'] . ", Status: " . $history['status'] . ", Employee: " . $history['employee'] . PHP_EOL;
-}
+print_r($result);
