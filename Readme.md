@@ -1,9 +1,12 @@
 # Бенчмарки
 
-## Сравниваем 2 модели:
+## Сравниваем 3 оффлайн модели, 2 онлайн:
+Offline:
 - YandexGPT 5 8b(8млрд параметров) - Yandex - https://habr.com/ru/companies/yandex/articles/895428/
 - Gemma 3 12b(12млрд параметров) - Google - https://www.hardreset.info/ru/articles/gemma-3-power-ai-surpasses-everything/
 - Deepseek R1 8b(8млрд параметров) - Deepseek - https://ollama.com/library/deepseek-r1:8b
+
+Online:
 - Yandex GPT 5 Pro Online - Yandex - https://alice.yandex.ru/
 - Deepseek Online - https://deepseek.com/
 
