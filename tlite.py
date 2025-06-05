@@ -1,36 +1,22 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
-torch.manual_seed(42)
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
 
 model_name = "t-tech/T-lite-it-1.0"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    torch_dtype="auto",
-    device_map="auto"
-)
+llm = LLM(model=model_name, max_model_len=8192)
+sampling_params = SamplingParams(temperature=0.7,
+                                repetition_penalty=1.05,
+                                top_p=0.8, top_k=70)
 
-prompt = "Напиши стих про машинное обучение"
+prompt = "Сгенерируй пожалуйста формулу для рассчета показателя time to market"
 messages = [
-    {"role": "system", "content": "Ты T-lite, виртуальный ассистент в Т-Технологии. Твоя задача - быть полезным диалоговым ассистентом."},
+    {"role": "system", "content": "Ты виртуальный ассистент в Уралсиб банке. Твоя задача - быть полезным диалоговым ассистентом в задачах сотрудника банка"},
     {"role": "user", "content": prompt}
 ]
-text = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True
-)
-model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
 
-generated_ids = model.generate(
-    **model_inputs,
-    max_new_tokens=256
-)
-generated_ids = [
-    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-]
+prompt_token_ids = tokenizer.apply_chat_template(messages, add_generation_prompt=True)
 
-response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+outputs = llm.generate(prompt_token_ids=prompt_token_ids, sampling_params=sampling_params)
 
-print(response)
-
+generated_text = [output.outputs[0].text for output in outputs]
+print(generated_text)
